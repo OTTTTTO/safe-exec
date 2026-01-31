@@ -1,12 +1,37 @@
 #!/bin/bash
-# SafeExec - 安全命令执行工具
-# 用法: safe-exec "<命令>"
+# SafeExec - 持续优化脚本 v0.1.1
+# 改进：添加超时清理功能
 
 SAFE_EXEC_DIR="$HOME/.openclaw/safe-exec"
 AUDIT_LOG="$HOME/.openclaw/safe-exec-audit.log"
 PENDING_DIR="$SAFE_EXEC_DIR/pending"
+REQUEST_TIMEOUT=300  # 5分钟超时
 
 mkdir -p "$PENDING_DIR"
+
+# 清理过期的请求
+cleanup_expired_requests() {
+    local now=$(date +%s)
+    local count=0
+    
+    for request_file in "$PENDING_DIR"/*.json; do
+        if [[ -f "$request_file" ]]; then
+            local timestamp=$(jq -r '.timestamp' "$request_file" 2>/dev/null)
+            if [[ -n "$timestamp" ]]; then
+                local age=$((now - timestamp))
+                if [[ $age -gt $REQUEST_TIMEOUT ]]; then
+                    local request_id=$(basename "$request_file" .json)
+                    jq '.status = "expired"' "$request_file" > "$request_file.tmp" && mv "$request_file.tmp" "$request_file"
+                    echo "{\"timestamp\":\"$(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")\",\"event\":\"expired\",\"requestId\":\"$request_id\",\"age\":$age}" >> "$AUDIT_LOG"
+                    rm -f "$request_file"
+                    count=$((count + 1))
+                fi
+            fi
+        fi
+    done
+    
+    return $count
+}
 
 log_audit() {
     local event="$1"
@@ -65,7 +90,6 @@ request_approval() {
     
     log_audit "approval_requested" "{\"requestId\":\"$request_id\",\"command\":$(echo "$command" | jq -Rs .),\"risk\":\"$risk\",\"reason\":\"$reason\"}"
     
-    # 输出警告信息
     cat <<EOF
 
 🚨 **危险操作检测 - 命令已拦截**
@@ -85,8 +109,9 @@ request_approval() {
 **拒绝方法:**
  \`safe-exec-reject $request_id\`
 
+⏰ 请求将在 5 分钟后过期
+
 EOF
-    # 返回 0 让 Agent 能够发送这个消息
     return 0
 }
 
@@ -97,6 +122,9 @@ main() {
         echo "用法: safe-exec \"<命令>\""
         exit 1
     fi
+    
+    # 自动清理过期请求
+    cleanup_expired_requests
     
     local assessment
     assessment=$(assess_risk "$command")
@@ -111,7 +139,6 @@ main() {
         exit $?
     fi
     
-    # 危险操作：拦截并返回成功（让消息能够发送）
     request_approval "$command" "$risk" "$reason"
     exit 0
 }
@@ -169,6 +196,11 @@ case "$1" in
         if [[ $count -eq 0 ]]; then
             echo "✅ 没有待处理的请求"
         fi
+        exit 0
+        ;;
+    --cleanup)
+        cleanup_expired_requests
+        echo "✅ 清理完成"
         exit 0
         ;;
 esac
