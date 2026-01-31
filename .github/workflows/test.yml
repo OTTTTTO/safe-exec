@@ -1,0 +1,25 @@
+name: Test SafeExec
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq
+    
+    - name: Run tests
+      run: |
+        chmod +x test.sh
+        bash test.sh
+    
+    - name: Test safe-exec
+      run: |
+        chmod +x safe-exec.sh
+        ./safe-exec.sh "echo 'test'"
