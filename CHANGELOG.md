@@ -7,14 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-02-01
+
+### Fixed
+- **Configuration Fix**: Removed incorrect SafeExec plugin configuration
+- SafeExec is now properly configured as a **Skill** (not a Plugin)
+- Eliminated startup warning logs about missing plugin skill paths
+- Clean separation between Plugin (core extension) and Skill (Agent tool)
+
+### Changed
+- Removed `~/.openclaw/extensions/safe-exec/` (incorrect Plugin version)
+- Kept `~/.openclaw/skills/safe-exec/` (correct Skill version)
+- Updated `openclaw.json` to remove plugin entry for safe-exec
+
+### Technical Details
+- **Before**: SafeExec was registered in `plugins.entries.safe-exec`
+- **After**: SafeExec is loaded from `skills.load.extraDirs`
+- **Benefit**: Correct architecture, no warning logs, proper Skill behavior
+
+## [0.1.2] - 2026-01-31
+
 ### Added
-- Initial release of SafeExec
-- Risk assessment engine with 10+ danger patterns
-- Command interception and approval workflow
-- Audit logging system
-- CLI tools: safe-exec, safe-exec-approve, safe-exec-reject, safe-exec-list
-- Comprehensive documentation
-- Feishu/Telegram/Discord integration support (planned)
+- Comprehensive USAGE.md guide (3000+ words)
+- CONTRIBUTING.md with contribution guidelines
+- CHANGELOG.md following Keep a Changelog format
+- release.sh automation script
+- RELEASE_NOTES.md for v0.1.2
+- .github/workflows/test.yml for CI/CD
+- PROJECT_REPORT.md with completion status
+
+### Documentation
+- Complete installation guide
+- Usage examples and scenarios
+- Troubleshooting section
+- FAQ (Frequently Asked Questions)
+- Best practices guide
+
+## [0.1.1] - 2026-01-31
+
+### Added
+- Automatic cleanup of expired approval requests
+- `cleanup_expired_requests()` function
+- `--cleanup` flag for manual cleanup
+- Default 5-minute timeout for requests
+- Audit log entries for expiration events
+
+### Improved
+- Prevents request database from growing indefinitely
+- Automatic cleanup on every command execution
+- Better security with request expiration
 
 ## [0.1.0] - 2026-01-31
 
