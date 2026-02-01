@@ -7,6 +7,65 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-02-01
+
+### Fixed
+- **Non-interactive hang issue**: Fixed `safe-exec-approve.sh` hanging when called by OpenClaw Agent
+- Script now detects non-interactive environments and skips confirmation prompt
+- Added `OPENCLAW_AGENT_CALL` and `SAFE_EXEC_AUTO_CONFIRM` environment variable support
+- TTY detection using `[[ -t 0 ]]` for automatic environment detection
+
+### Changed
+- Interactive confirmation is now conditional based on environment
+- Human terminal usage maintains safety confirmation
+- Agent calls automatically bypass confirmation (prevents hanging)
+
+### Added
+- `FIX_REPORT_v0.2.3.md` - Detailed fix report with test results
+- Smart environment detection logic (TTY + environment variables)
+- Visual indicator for non-interactive mode: `🤖 非交互式环境 - 自动跳过确认`
+
+### Security
+- ✅ All security features preserved
+- ✅ Danger pattern detection unchanged
+- ✅ Risk assessment mechanism unchanged
+- ✅ Approval workflow intact
+- ✅ Audit logging complete
+- ✅ Human users still get confirmation prompt in terminals
+
+### Testing
+- ✅ Agent call scenario: Pass (no hang, completes in <1s)
+- ✅ Environment variable detection: Pass
+- ✅ Human terminal usage: Pass (confirmation preserved)
+- ✅ Command execution: Pass (successful)
+- ✅ Request cleanup: Pass
+
+### Backwards Compatibility
+- ✅ Fully backwards compatible
+- ✅ Existing usage patterns unchanged
+- ✅ Human user experience unchanged
+- ✅ Agent calls automatically adapt
+
+## [0.2.3] - 2026-02-01
+
+### Added
+- **Context-aware risk assessment**: Detect user confirmation keywords
+- Dynamic risk level adjustment based on user intent
+- Customizable confirmation keywords
+- `safe-exec-ai-wrapper.sh` for AI Agent integration
+- `test-context-aware.sh` test suite
+
+### Changed
+- Risk assessment now considers user context
+- CRITICAL + confirmation → MEDIUM (still requires approval)
+- HIGH + confirmation → LOW (direct execution)
+- MEDIUM + confirmation → LOW (direct execution)
+
+### Security
+- CRITICAL operations always require approval
+- All operations logged to audit trail
+- Configurable strictness level
+
 ## [0.2.0] - 2026-02-01
 
 ### Added
