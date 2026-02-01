@@ -2,9 +2,9 @@
 name: safe-exec
 description: Safe command execution for OpenClaw Agents with automatic danger pattern detection, risk assessment, user approval workflow, and audit logging. Use when agents need to execute shell commands that may be dangerous (rm -rf, dd, fork bombs, system directory modifications) or require human oversight. Provides multi-level risk assessment (CRITICAL/HIGH/MEDIUM/LOW), in-session notifications, pending request management, and non-interactive environment support for agent automation.
 
-**Quick Install:** Say "Help me install SafeExec skill from ClawdHub" in your OpenClaw chat to automatically install and enable this safety layer.
+Quick Install: Say "Help me install SafeExec skill from ClawdHub" in your OpenClaw chat to automatically install and enable this safety layer.
 
-**Report Issues:** https://github.com/OTTTTTO/safe-exec/issues - Community feedback and bug reports welcome!
+Report Issues: https://github.com/OTTTTTO/safe-exec/issues - Community feedback and bug reports welcome!
 ---
 
 # SafeExec - Safe Command Execution
@@ -30,11 +30,6 @@ Provides secure command execution capabilities for OpenClaw Agents with automati
 Just say in your OpenClaw chat:
 ```
 Help me install SafeExec skill from ClawdHub
-```
-
-Or:
-```
-安装 ClawdHub 中的 SafeExec skill
 ```
 
 OpenClaw will automatically download, install, and configure SafeExec for you!
