@@ -1,6 +1,7 @@
 # Binaries
 *.sh
 !safe-exec.sh
+!safe-exec-ai-wrapper.sh
 !safe-exec-approve.sh
 !safe-exec-reject.sh
 !safe-exec-list.sh

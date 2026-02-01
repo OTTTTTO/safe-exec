@@ -1,12 +1,15 @@
 #!/bin/bash
-# SafeExec v0.2.0 - 持续优化脚本
-# 新增：全局开关功能
+# SafeExec v0.2.3 - 上下文感知版本
+# 新增：上下文感知拦截功能
 
 SAFE_EXEC_DIR="$HOME/.openclaw/safe-exec"
 AUDIT_LOG="$HOME/.openclaw/safe-exec-audit.log"
 PENDING_DIR="$SAFE_EXEC_DIR/pending"
 RULES_FILE="$HOME/.openclaw/safe-exec-rules.json"
 REQUEST_TIMEOUT=300  # 5分钟超时
+
+# 上下文感知配置
+USER_CONTEXT="${SAFEXEC_CONTEXT:-}"
 
 mkdir -p "$PENDING_DIR"
 
@@ -67,6 +70,49 @@ set_enabled() {
 
     echo "$status"
     log_audit "toggle" "{\"enabled\":$value}"
+}
+
+# 获取自定义确认关键词
+get_confirmation_keywords() {
+    if [[ ! -f "$RULES_FILE" ]]; then
+        # 默认关键词
+        echo "我已明确风险|I understand the risk"
+        return
+    fi
+
+    # 检查文件格式
+    local first_char=$(head -c 1 "$RULES_FILE")
+
+    if [[ "$first_char" == "[" ]]; then
+        # 数组格式，返回默认关键词
+        echo "我已明确风险|I understand the risk"
+        return
+    fi
+
+    # 对象格式，尝试读取自定义关键词
+    local keywords
+    keywords=$(jq -r '.contextAware.confirmationKeywords // "我已明确风险|I understand the risk"' "$RULES_FILE" 2>/dev/null)
+
+    if [[ -z "$keywords" ]] || [[ "$keywords" == "null" ]]; then
+        echo "我已明确风险|I understand the risk"
+    else
+        echo "$keywords"
+    fi
+}
+
+# 检测用户明确确认
+detect_user_confirmation() {
+    local context="$1"
+    local keywords=$(get_confirmation_keywords)
+
+    # 检查上下文中是否包含确认关键词
+    if echo "$context" | grep -qE "$keywords"; then
+        echo "confirmed"
+        return 0
+    fi
+
+    echo "normal"
+    return 1
 }
 
 # 显示当前状态
@@ -236,6 +282,39 @@ main() {
     local reason
     risk=$(echo "$assessment" | jq -r '.risk')
     reason=$(echo "$assessment" | jq -r '.reason')
+    
+    # ========== 上下文感知拦截 ==========
+    # 检查用户是否提供了明确的确认关键词
+    if [[ -n "$USER_CONTEXT" ]]; then
+        local confirmation
+        confirmation=$(detect_user_confirmation "$USER_CONTEXT")
+        
+        if [[ "$confirmation" == "confirmed" ]]; then
+            # 用户已明确风险，根据原风险等级决定处理方式
+            if [[ "$risk" == "critical" ]]; then
+                # CRITICAL 风险：降级到 MEDIUM（仍需批准，但降低警告级别）
+                echo "⚠️  检测到确认关键词，但风险等级为 CRITICAL"
+                echo "ℹ️  命令降级到 MEDIUM，但仍需批准"
+                risk="medium"
+                log_audit "context_aware_downgrade" "{\"originalRisk\":\"critical\",\"newRisk\":\"medium\",\"reason\":\"用户确认关键词\",\"context\":$(echo "$USER_CONTEXT" | jq -Rs .)}"
+            elif [[ "$risk" == "high" ]]; then
+                # HIGH 风险：降级到 LOW（直接执行）
+                echo "✅ 检测到确认关键词，风险等级从 HIGH 降级到 LOW"
+                echo "⚡ 直接执行命令: $command"
+                log_audit "context_aware_allowed" "{\"originalRisk\":\"high\",\"newRisk\":\"low\",\"reason\":\"用户确认关键词\",\"context\":$(echo "$USER_CONTEXT" | jq -Rs .)}"
+                eval "$command"
+                exit $?
+            elif [[ "$risk" == "medium" ]]; then
+                # MEDIUM 风险：降级到 LOW（直接执行）
+                echo "✅ 检测到确认关键词，风险等级从 MEDIUM 降级到 LOW"
+                echo "⚡ 直接执行命令: $command"
+                log_audit "context_aware_allowed" "{\"originalRisk\":\"medium\",\"newRisk\":\"low\",\"reason\":\"用户确认关键词\",\"context\":$(echo "$USER_CONTEXT" | jq -Rs .)}"
+                eval "$command"
+                exit $?
+            fi
+        fi
+    fi
+    # ========== 上下文感知拦截结束 ==========
     
     if [[ "$risk" == "low" ]]; then
         log_audit "allowed" "{\"command\":$(echo "$command" | jq -Rs .),\"risk\":\"low\"}"
