@@ -1,3 +1,8 @@
+---
+name: safe-exec
+description: Safe command execution for OpenClaw Agents with automatic danger pattern detection, risk assessment, user approval workflow, and audit logging. Use when agents need to execute shell commands that may be dangerous (rm -rf, dd, fork bombs, system directory modifications) or require human oversight. Provides multi-level risk assessment (CRITICAL/HIGH/MEDIUM/LOW), Feishu notifications, pending request management, and non-interactive environment support for agent automation.
+---
+
 # SafeExec - 安全命令执行 Skill
 
 为 OpenClaw Agent 提供安全的命令执行能力，自动拦截危险操作并要求用户批准。
