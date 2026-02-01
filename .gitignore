@@ -5,6 +5,9 @@
 !safe-exec-reject.sh
 !safe-exec-list.sh
 !test.sh
+!release.sh
+!publish-to-github.sh
+!push-to-github.sh
 
 # Logs
 *.log
