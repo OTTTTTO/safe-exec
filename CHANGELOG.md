@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-02-01
+
+### Added
+- **Global on/off switch** for SafeExec
+- New commands: `--enable`, `--disable`, `--status`
+- Configuration file `safe-exec-rules.json` now includes `enabled` field
+- When disabled, commands execute directly without safety checks
+- Audit log includes `bypassed` events when disabled
+
+### Changed
+- Improved `is_enabled()` function to handle false correctly
+- Updated status display to show current protection state
+- Enhanced user feedback for enable/disable operations
+
+### Fixed
+- **Critical Bug**: Fixed jq `//` operator treating `false` as falsy
+- Now explicitly checks `.enabled == true` instead of `.enabled // true`
+- This ensures SafeExec can be properly toggled on/off
+
+### Security Note
+⚠️ **Warning**: When SafeExec is disabled, ALL commands execute directly without protection!
+Only disable in trusted environments.
+
 ## [0.1.3] - 2026-02-01
 
 ### Fixed

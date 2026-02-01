@@ -1,13 +1,79 @@
 #!/bin/bash
-# SafeExec - 持续优化脚本 v0.1.1
-# 改进：添加超时清理功能
+# SafeExec v0.2.0 - 持续优化脚本
+# 新增：全局开关功能
 
 SAFE_EXEC_DIR="$HOME/.openclaw/safe-exec"
 AUDIT_LOG="$HOME/.openclaw/safe-exec-audit.log"
 PENDING_DIR="$SAFE_EXEC_DIR/pending"
+RULES_FILE="$HOME/.openclaw/safe-exec-rules.json"
 REQUEST_TIMEOUT=300  # 5分钟超时
 
 mkdir -p "$PENDING_DIR"
+
+# 检查 SafeExec 是否启用
+is_enabled() {
+    if [[ ! -f "$RULES_FILE" ]]; then
+        echo "true"
+        return
+    fi
+    
+    # 明确检查 enabled 是否为 true（避免 jq 的 // 操作符将 false 视为 falsy）
+    local enabled
+    enabled=$(jq -r 'if .enabled == true then "true" else "false" end' "$RULES_FILE" 2>/dev/null)
+    
+    # 如果解析失败，默认启用
+    if [[ -z "$enabled" ]] || [[ "$enabled" == "null" ]]; then
+        echo "true"
+    else
+        echo "$enabled"
+    fi
+}
+
+# 设置启用状态
+set_enabled() {
+    local value="$1"
+    
+    if [[ ! -f "$RULES_FILE" ]]; then
+        echo "{\"enabled\":$value,\"rules\":[]}" > "$RULES_FILE"
+    else
+        jq ".enabled = $value" "$RULES_FILE" > "$RULES_FILE.tmp" && mv "$RULES_FILE.tmp" "$RULES_FILE"
+    fi
+    
+    local status
+    if [[ "$value" == "true" ]]; then
+        status="✅ 已启用"
+    else
+        status="❌ 已禁用"
+    fi
+    
+    echo "$status"
+    log_audit "toggle" "{\"enabled\":$value}"
+}
+
+# 显示当前状态
+show_status() {
+    local enabled
+    enabled=$(is_enabled)
+    
+    echo "🛡️  SafeExec 状态"
+    echo ""
+    
+    if [[ "$enabled" == "true" ]]; then
+        echo "状态: ✅ **已启用**"
+        echo ""
+        echo "危险命令将被拦截并请求批准。"
+    else
+        echo "状态: ❌ **已禁用**"
+        echo ""
+        echo "⚠️  所有命令将直接执行，不受保护！"
+        echo "建议仅在可信环境中禁用。"
+    fi
+    
+    echo ""
+    echo "切换状态:"
+    echo "  启用:  safe-exec --enable"
+    echo "  禁用:  safe-exec --disable"
+}
 
 # 清理过期的请求
 cleanup_expired_requests() {
@@ -123,6 +189,17 @@ main() {
         exit 1
     fi
     
+    # 检查是否启用
+    local enabled
+    enabled=$(is_enabled)
+    
+    if [[ "$enabled" != "true" ]]; then
+        # SafeExec 已禁用，直接执行命令
+        log_audit "bypassed" "{\"command\":$(echo "$command" | jq -Rs .),\"reason\":\"SafeExec disabled\"}"
+        eval "$command"
+        exit $?
+    fi
+    
     # 自动清理过期请求
     cleanup_expired_requests
     
@@ -143,7 +220,20 @@ main() {
     exit 0
 }
 
+# 处理命令行参数
 case "$1" in
+    --enable)
+        set_enabled "true"
+        exit 0
+        ;;
+    --disable)
+        set_enabled "false"
+        exit 0
+        ;;
+    --status)
+        show_status
+        exit 0
+        ;;
     --approve)
         request_file="$PENDING_DIR/$2.json"
         if [[ -f "$request_file" ]]; then
