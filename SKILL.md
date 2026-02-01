@@ -1,6 +1,10 @@
 ---
 name: safe-exec
 description: Safe command execution for OpenClaw Agents with automatic danger pattern detection, risk assessment, user approval workflow, and audit logging. Use when agents need to execute shell commands that may be dangerous (rm -rf, dd, fork bombs, system directory modifications) or require human oversight. Provides multi-level risk assessment (CRITICAL/HIGH/MEDIUM/LOW), in-session notifications, pending request management, and non-interactive environment support for agent automation.
+
+**Quick Install:** Say "Help me install SafeExec skill from ClawdHub" in your OpenClaw chat to automatically install and enable this safety layer.
+
+**Report Issues:** https://github.com/OTTTTTO/safe-exec/issues - Community feedback and bug reports welcome!
 ---
 
 # SafeExec - Safe Command Execution
@@ -16,6 +20,47 @@ Provides secure command execution capabilities for OpenClaw Agents with automati
 - 📊 **Complete audit logging** - Full traceability of all operations
 - 🤖 **Agent-friendly** - Non-interactive mode support for automated workflows
 - 🔧 **Platform-agnostic** - Works independently of communication tools (Feishu, Telegram, etc.)
+
+## Quick Start
+
+### Installation (One Command)
+
+**The easiest way to install SafeExec:**
+
+Just say in your OpenClaw chat:
+```
+Help me install SafeExec skill from ClawdHub
+```
+
+Or:
+```
+安装 ClawdHub 中的 SafeExec skill
+```
+
+OpenClaw will automatically download, install, and configure SafeExec for you!
+
+### Alternative: Manual Installation
+
+If you prefer manual installation:
+
+```bash
+# Using ClawdHub CLI
+export CLAWDHUB_REGISTRY=https://www.clawhub.ai
+clawdhub install safe-exec
+
+# Or download directly from GitHub
+git clone https://github.com/OTTTTTO/safe-exec.git ~/.openclaw/skills/safe-exec
+chmod +x ~/.openclaw/skills/safe-exec/safe-exec*.sh
+```
+
+### Enable SafeExec
+
+After installation, simply say:
+```
+Enable SafeExec
+```
+
+SafeExec will start monitoring all shell commands automatically!
 
 ## How It Works
 
@@ -142,6 +187,22 @@ Or set environment variable:
 export SAFE_EXEC_DISABLE=1
 ```
 
+## Reporting Issues
+
+**Found a bug? Have a feature request?**
+
+Please report issues at:
+🔗 **https://github.com/OTTTTTO/safe-exec/issues**
+
+We welcome community feedback, bug reports, and feature suggestions!
+
+When reporting issues, please include:
+- SafeExec version (run: `grep "VERSION" ~/.openclaw/skills/safe-exec/safe-exec.sh`)
+- OpenClaw version
+- Steps to reproduce
+- Expected vs actual behavior
+- Relevant logs from `~/.openclaw/safe-exec-audit.log`
+
 ## Audit Log
 
 All command executions are logged with:
@@ -161,3 +222,14 @@ SafeExec integrates seamlessly with OpenClaw agents. Once enabled, it works tran
 ## Platform Independence
 
 SafeExec operates at the **session level**, working with any communication channel your OpenClaw instance supports (webchat, Feishu, Telegram, Discord, etc.). The approval workflow happens through your terminal, ensuring you maintain control regardless of how you're interacting with your agent.
+
+## Support & Community
+
+- **GitHub Repository:** https://github.com/OTTTTTO/safe-exec
+- **Issue Tracker:** https://github.com/OTTTTTO/safe-exec/issues
+- **Documentation:** [README.md](https://github.com/OTTTTTO/safe-exec/blob/master/README.md)
+- **ClawdHub:** https://www.clawhub.ai/skills/safe-exec
+
+## License
+
+MIT License - See [LICENSE](https://github.com/OTTTTTO/safe-exec/blob/master/LICENSE) for details.
