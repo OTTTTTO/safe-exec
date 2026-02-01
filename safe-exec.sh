@@ -16,11 +16,20 @@ is_enabled() {
         echo "true"
         return
     fi
-    
-    # 明确检查 enabled 是否为 true（避免 jq 的 // 操作符将 false 视为 falsy）
+
+    # 检查文件格式
+    local first_char=$(head -c 1 "$RULES_FILE")
+
+    if [[ "$first_char" == "[" ]]; then
+        # 数组格式，默认启用
+        echo "true"
+        return
+    fi
+
+    # 对象格式，检查 enabled 字段
     local enabled
     enabled=$(jq -r 'if .enabled == true then "true" else "false" end' "$RULES_FILE" 2>/dev/null)
-    
+
     # 如果解析失败，默认启用
     if [[ -z "$enabled" ]] || [[ "$enabled" == "null" ]]; then
         echo "true"
@@ -32,20 +41,30 @@ is_enabled() {
 # 设置启用状态
 set_enabled() {
     local value="$1"
-    
+
     if [[ ! -f "$RULES_FILE" ]]; then
         echo "{\"enabled\":$value,\"rules\":[]}" > "$RULES_FILE"
     else
-        jq ".enabled = $value" "$RULES_FILE" > "$RULES_FILE.tmp" && mv "$RULES_FILE.tmp" "$RULES_FILE"
+        # 检查文件格式（数组 vs 对象）
+        local first_char=$(head -c 1 "$RULES_FILE")
+
+        if [[ "$first_char" == "[" ]]; then
+            # 当前是数组格式，转换为对象格式
+            local rules_array=$(cat "$RULES_FILE")
+            echo "{\"enabled\":$value,\"rules\":$rules_array}" > "$RULES_FILE"
+        else
+            # 当前是对象格式，直接更新
+            jq ".enabled = $value" "$RULES_FILE" > "$RULES_FILE.tmp" && mv "$RULES_FILE.tmp" "$RULES_FILE"
+        fi
     fi
-    
+
     local status
     if [[ "$value" == "true" ]]; then
         status="✅ 已启用"
     else
         status="❌ 已禁用"
     fi
-    
+
     echo "$status"
     log_audit "toggle" "{\"enabled\":$value}"
 }
@@ -103,7 +122,15 @@ log_audit() {
     local event="$1"
     local data="$2"
     local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")
-    echo "{\"timestamp\":\"$timestamp\",\"event\":\"$event\",$data}" >> "$AUDIT_LOG"
+
+    # 构造完整的 JSON 对象
+    # 注意：data 参数应该已经是 JSON 格式，但不带外层花括号
+    # 例如：data='"requestId":"xxx","command":"xxx"'
+    # 我们需要移除 data 的外层花括号（如果有的话）
+    local clean_data="${data#{}"  # 移除开头的 {
+    clean_data="${clean_data%\}}"  # 移除结尾的 }
+
+    echo "{\"timestamp\":\"$timestamp\",\"event\":\"$event\",$clean_data}" >> "$AUDIT_LOG"
 }
 
 assess_risk() {
