@@ -77,7 +77,7 @@ All operations are logged to `~/.openclaw/safe-exec-audit.log`:
 
 ```bash
 # Clone to OpenClaw skills directory
-git clone https://github.com/yourusername/safe-exec.git ~/.openclaw/skills/safe-exec
+git clone https://github.com/OTTTTTO/safe-exec.git ~/.openclaw/skills/safe-exec
 
 # Add execute permissions
 chmod +x ~/.openclaw/skills/safe-exec/*.sh
@@ -547,7 +547,7 @@ Contributions welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details
 
 ```bash
 # Fork repository
-git clone https://github.com/yourusername/safe-exec.git
+git clone https://github.com/OTTTTTO/safe-exec.git
 
 # Create feature branch
 git checkout -b feature/amazing-feature
@@ -579,8 +579,8 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 ## 📮 Contact
 
-- **GitHub Issues**: [Submit issues](https://github.com/yourusername/safe-exec/issues)
-- **Email**: your.email@example.com
+- **GitHub Issues**: [Submit issues](https://github.com/OTTTTTO/safe-exec/issues)
+- **Email**: 731554297@qq.com
 - **Discord**: [OpenClaw Community](https://discord.gg/clawd)
 
 ---

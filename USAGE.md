@@ -294,7 +294,7 @@ find ~/.openclaw -name "safe-exec-audit.log" -mtime +30 -delete
 
 - **GitHub Issues**: https://github.com/yourusername/safe-exec/issues
 - **Discord**: https://discord.gg/clawd
-- **Email**: your.email@example.com
+- **Email**: 731554297@qq.com
 
 ---
 

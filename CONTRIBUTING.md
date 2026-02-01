@@ -6,7 +6,7 @@
 
 ### 报告问题
 
-在 [GitHub Issues](https://github.com/yourusername/safe-exec/issues) 中报告 bug 或提出功能请求。
+在 [GitHub Issues](https://github.com/OTTTTTO/safe-exec/issues) 中报告 bug 或提出功能请求。
 
 **报告问题时请包含：**
 - OpenClaw 版本
@@ -19,7 +19,7 @@
 
 1. **Fork 仓库**
    ```bash
-   git clone https://github.com/yourusername/safe-exec.git
+   git clone https://github.com/OTTTTTO/safe-exec.git
    cd safe-exec
    ```
 

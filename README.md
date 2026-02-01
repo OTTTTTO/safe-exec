@@ -79,7 +79,7 @@ AI Agents 是强大的助手，但也可能造成严重损害：
 
 ```bash
 # 克隆到 OpenClaw skills 目录
-git clone https://github.com/yourusername/safe-exec.git ~/.openclaw/skills/safe-exec
+git clone https://github.com/OTTTTTO/safe-exec.git ~/.openclaw/skills/safe-exec
 
 # 添加执行权限
 chmod +x ~/.openclaw/skills/safe-exec/*.sh
@@ -133,7 +133,7 @@ OpenClaw 会自动拦截并询问您的批准！
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/yourusername/safe-exec.git ~/.openclaw/skills/safe-exec
+git clone https://github.com/OTTTTTO/safe-exec.git ~/.openclaw/skills/safe-exec
 
 # 2. 添加执行权限
 chmod +x ~/.openclaw/skills/safe-exec/*.sh
@@ -152,7 +152,7 @@ safe-exec "echo 'Hello SafeExec!'"
 
 ```bash
 # 下载脚本到 PATH
-curl -o ~/.local/bin/safe-exec https://raw.githubusercontent.com/yourusername/safe-exec/main/safe-exec.sh
+curl -o ~/.local/bin/safe-exec https://raw.githubusercontent.com/OTTTTTO/safe-exec/main/safe-exec.sh
 chmod +x ~/.local/bin/safe-exec
 ```
 
@@ -618,7 +618,7 @@ safe-exec "rm -rf /tmp/test-dangerous"
 
 ```bash
 # Fork 仓库
-git clone https://github.com/yourusername/safe-exec.git
+git clone https://github.com/OTTTTTO/safe-exec.git
 
 # 创建功能分支
 git checkout -b feature/amazing-feature
@@ -712,7 +712,7 @@ jobs:
 
       - name: Install SafeExec
         run: |
-          git clone https://github.com/yourusername/safe-exec.git ~/.local/bin/safe-exec
+          git clone https://github.com/OTTTTTO/safe-exec.git ~/.local/bin/safe-exec
           chmod +x ~/.local/bin/safe-exec/*
 
       - name: Check deployment scripts
@@ -952,7 +952,7 @@ sudo rm -rf /tmp/test
 1. **检查状态**: `safe-exec --status`
 2. **查看日志**: `tail -50 ~/.openclaw/safe-exec-audit.log`
 3. **测试命令**: `safe-exec "echo 'test'"`
-4. **提交问题**: [GitHub Issues](https://github.com/yourusername/safe-exec/issues)
+4. **提交问题**: [GitHub Issues](https://github.com/OTTTTTO/safe-exec/issues)
 
 ---
 
@@ -972,8 +972,8 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ## 📮 联系方式
 
-- **GitHub Issues**: [提交问题](https://github.com/yourusername/safe-exec/issues)
-- **Email**: your.email@example.com
+- **GitHub Issues**: [提交问题](https://github.com/OTTTTTO/safe-exec/issues)
+- **Email**: 731554297@qq.com
 - **Discord**: [OpenClaw Community](https://discord.gg/clawd)
 
 ---
@@ -982,7 +982,7 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 如果这个项目对你有帮助，请给个 Star ⭐
 
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/safe-exec&type=Date)](https://star-history.com/#yourusername/safe-exec&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=OTTTTTO/safe-exec&type=Date)](https://star-history.com/#OTTTTTO/safe-exec&Date)
 
 ---
 

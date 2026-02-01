@@ -55,7 +55,7 @@ safe-exec-approve req_xxxxx
 ## 📮 联系方式
 
 - GitHub: https://github.com/yourusername/safe-exec
-- Email: your.email@example.com
+- Email: 731554297@qq.com
 - Discord: https://discord.gg/clawd
 
 ---
