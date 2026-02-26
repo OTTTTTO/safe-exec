@@ -344,9 +344,6 @@ export SAFE_EXEC_AUDIT_LOG="$HOME/.openclaw/safe-exec-audit.log"
 
 # Request timeout (seconds)
 export SAFE_EXEC_TIMEOUT=300
-
-# Feishu group ID (for notifications)
-export SAFE_EXEC_FEISHU_GROUP="oc_xxxxx"
 ```
 
 ---
