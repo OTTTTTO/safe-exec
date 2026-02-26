@@ -5,6 +5,70 @@ All notable changes to SafeExec will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.3] - 2026-02-26
+
+### Security
+- **Enhanced SKILL.md metadata** - Added explicit declarations for network, monitoring, and credential requirements
+- **Documented Agent Mode** - Clearly explained non-interactive execution behavior with full audit logging
+- **Added Security & Privacy section** - Comprehensive documentation of what SafeExec does and does NOT do
+- **Created CLAWDHUB_SECURITY_RESPONSE.md** - Detailed response to security review concerns
+
+### Changed
+- **SKILL.md** - Added comprehensive metadata section
+  - Declares environment variables: SAFE_EXEC_DISABLE, OPENCLAW_AGENT_CALL, SAFE_EXEC_AUTO_CONFIRM
+  - Declares write paths: ~/.openclaw/safe-exec/, ~/.openclaw/safe-exec-audit.log
+  - Explicitly states: network=false, monitoring=false, credentials=[]
+- **SKILL.md** - Added "Security & Privacy" section
+  - Clearly documents what SafeExec does and does NOT do
+  - Addresses all ClawdHub security review concerns
+- **SKILL.md** - Enhanced "Agent Mode" section
+  - Explains non-interactive execution behavior
+  - Documents full audit logging for agent-executed commands
+  - Clarifies safety preservation in agent mode
+
+### Security Notes
+- ✅ **No monitoring** - Does not read chat sessions or conversation history
+- ✅ **No network calls** - Works entirely locally (except git clone during manual installation)
+- ✅ **No external notifications** - No integration with Feishu, webhooks, or external services
+- ✅ **No background processes** - No cron jobs or persistent monitoring daemons
+- ✅ **Transparent audit logging** - All executions logged with mode label (user_approved / agent_auto)
+- ⚠️ **Agent mode preserved** - Non-interactive bypass for automation, fully audited
+
+### Addressed Issues
+This release directly addresses security review concerns from ClawdHub:
+- Declared capabilities: Explicit metadata in SKILL.md
+- Documented behavior: Agent mode clearly explained with safety guarantees
+- Transparency: Comprehensive "Security & Privacy" section
+
+## [0.3.2] - 2026-02-26
+
+### Security
+- **Removed monitoring subsystem** - Deleted unified-monitor.sh and all monitoring components
+- **Removed external integrations** - No more Feishu notifications, GitHub monitoring, or OpenClaw comment checking
+- **Simplified project scope** - Focused purely on command approval functionality
+
+### Removed
+- `UNIFIED_MONITOR.md` - Unified monitoring system documentation
+- `docs/GITHUB_ISSUE_MONITOR.md` - GitHub issue monitoring documentation
+- `docs/BLOG.md` / `docs/BLOG_EN.md` - Blog posts with notification references
+- `docs/CONTRIBUTING.md` - Outdated contribution guide
+- `docs/FIX_REPORT_v0.1.3.md` / `docs/FIX_REPORT_v0.2.3.md` - Historical fix reports
+- `docs/GITHUB_RELEASE_v0.2.0.md` - GitHub release documentation
+- `docs/GLOBAL_SWITCH_GUIDE.md` - Global switch usage guide
+- `docs/PROJECT_REPORT.md` - Project report
+- `docs/PUBLISHING_GUIDE.md` - Publishing tool documentation
+- `docs/RELEASE_NOTES.md` - Release notes
+- `docs/RELEASE_v0.2.0.md` / `docs/RELEASE_v0.2.4.md` - Historical release documentation
+- `docs/USAGE.md` - Usage documentation
+- `tools/publish-to-github.sh` - GitHub publishing script
+- `tools/push-to-github.sh` - Git push script
+- `tools/release.sh` - Release automation script
+- `RELEASE_v0.3.2.md` - Release documentation
+- `UPDATE_NOTES.md` - Update notes
+
+### Changed
+- `README_EN.md` - Removed Feishu environment variable configuration
+
 ## [Unreleased]
 
 ## [0.2.4] - 2026-02-01
