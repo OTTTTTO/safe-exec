@@ -1,6 +1,6 @@
 #!/bin/bash
-# SafeExec v0.2.3 - 上下文感知版本
-# 新增：上下文感知拦截功能
+# SafeExec v0.3.3 - 安全增强版本
+# 移除监控组件，添加完整的 metadata 声明
 
 SAFE_EXEC_DIR="$HOME/.openclaw/safe-exec"
 AUDIT_LOG="$HOME/.openclaw/safe-exec-audit.log"

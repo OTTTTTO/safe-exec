@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-Skill-blue)](https://openclaw.ai)
 [![Security](https://img.shields.io/badge/Security-Critical-red)]()
-[![ClawdHub](https://img.shields.io/badge/ClawdHub-v0.3.1-brightgreen)](https://www.clawhub.ai/skills/safe-exec)
+[![ClawdHub](https://img.shields.io/badge/ClawdHub-v0.3.3-brightgreen)](https://www.clawhub.ai/skills/safe-exec)
 
 **🌐 Languages:** [中文](README.md) | [English](README_EN.md)
 

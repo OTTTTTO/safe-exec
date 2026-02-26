@@ -141,7 +141,7 @@ chmod +x ~/.openclaw/skills/safe-exec/safe-exec*.sh
 
 ---
 
-## What Changed in v0.2.5
+## What Changed in v0.3.2 and v0.3.3
 
 ### Files Removed (21 files, 4309 lines)
 - All monitoring subsystem documentation
@@ -162,7 +162,7 @@ chmod +x ~/.openclaw/skills/safe-exec/safe-exec*.sh
 
 ---
 
-## Security Posture (Post v0.2.5)
+## Security Posture (Post v0.3.3)
 
 ### ✅ SafeExec DOES:
 1. Intercept shell commands before execution
@@ -202,7 +202,7 @@ chmod +x ~/.openclaw/skills/safe-exec/safe-exec*.sh
 
 ## Recommendation
 
-We believe SafeExec v0.2.5 fully addresses the security review concerns:
+We believe SafeExec v0.3.3 fully addresses the security review concerns:
 
 1. **Scope clarified** - Pure command approval tool, no monitoring
 2. **Transparency improved** - Comprehensive metadata and documentation
@@ -224,6 +224,6 @@ We welcome further feedback and are committed to maintaining SafeExec as a secur
 
 ---
 
-**Version:** 0.2.5
+**Version:** 0.3.3
 **Date:** 2026-02-26
 **Author:** Otto SafeExec
