@@ -5,6 +5,29 @@ All notable changes to SafeExec will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.4] - 2026-02-27
+
+### Fixed
+- **Corrected YAML metadata format** - Changed from JSON-in-YAML hybrid to proper YAML syntax
+  - `requires` and `install` are now siblings of `openclaw`, not children
+  - Added `SAFEXEC_CONTEXT` to `env` declarations (used in scripts)
+  - Fixed array syntax for better ClawHub compatibility
+- **Resolved ClawHub registry mismatch** - Metadata now matches actual implementation
+
+### Documentation
+- **Added TECHNICAL_IMPLEMENTATION.md** - Comprehensive technical documentation
+  - Explains wrapper-based architecture (no shell hooks)
+  - Documents agent mode auto-approval behavior
+  - Clarifies eval usage and security considerations
+  - Provides installation verification and safety checklist
+  - Answers common security questions
+
+### Security Notes
+- ✅ **No shell hooks** - Does not modify ~/.bashrc, ~/.profile, or /etc files
+- ✅ **No daemons** - No background processes or cron jobs
+- ✅ **Wrapper model** - Agents must explicitly call safe-exec.sh
+- ✅ **Transparent audit** - All executions logged with mode labels
+
 ## [0.3.3] - 2026-02-26
 
 ### Security
