@@ -1,6 +1,6 @@
 #!/bin/bash
-# SafeExec v0.3.3 - 安全增强版本
-# 移除监控组件，添加完整的 metadata 声明
+# SafeExec v0.3.4 - ClawHub兼容性修复
+# 修正YAML metadata格式，添加技术实现文档
 
 SAFE_EXEC_DIR="$HOME/.openclaw/safe-exec"
 AUDIT_LOG="$HOME/.openclaw/safe-exec-audit.log"
