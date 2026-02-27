@@ -2,26 +2,26 @@
 name: safe-exec
 description: Safe command execution for OpenClaw Agents with automatic danger pattern detection, risk assessment, user approval workflow, and audit logging. Use when agents need to execute shell commands that may be dangerous (rm -rf, dd, fork bombs, system directory modifications) or require human oversight. Provides multi-level risk assessment (CRITICAL/HIGH/MEDIUM/LOW), in-session notifications, pending request management, and non-interactive environment support for agent automation.
 metadata:
-  {
-    "openclaw":
-      {
-        "env": ["SAFE_EXEC_DISABLE", "OPENCLAW_AGENT_CALL", "SAFE_EXEC_AUTO_CONFIRM"],
-        "writes": ["~/.openclaw/safe-exec/", "~/.openclaw/safe-exec-audit.log"],
-        "network": false,
-        "monitoring": false,
-        "credentials": []
-      },
-      "requires": { "bins": ["jq"] },
-      "install":
-        [
-          {
-            "id": "git",
-            "kind": "git",
-            "url": "https://github.com/OTTTTTO/safe-exec.git",
-            "label": "Clone from GitHub",
-          },
-        ],
-  }
+  openclaw:
+    env:
+      - SAFE_EXEC_DISABLE
+      - OPENCLAW_AGENT_CALL
+      - SAFEXEC_CONTEXT
+      - SAFE_EXEC_AUTO_CONFIRM
+    writes:
+      - ~/.openclaw/safe-exec/
+      - ~/.openclaw/safe-exec-audit.log
+    network: false
+    monitoring: false
+    credentials: []
+  requires:
+    bins:
+      - jq
+  install:
+    - id: git
+      kind: git
+      url: https://github.com/OTTTTTO/safe-exec.git
+      label: Clone from GitHub
 ---
 
 # SafeExec - Safe Command Execution
